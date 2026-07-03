@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="d3/d3.v7.js"></script>
+</head>
+<body>
+    <script>
+        const dataset = [
+                            [5, 20], [480, 90], [250, 50], [100, 33], [330, 95],
+                            [410, 12], [475, 44], [25, 67], [85, 21], [220, 88],
+                            [45, 104], [205, 57], [300, 21], [220, 88],
+                        ];
+
+        const svgHeight = 200
+        const svgWidth = 500
+        const padding = 20
+
+        // Scales
+        const xScale = d3.scaleLinear()
+                            .domain([0, d3.max(dataset, function(d){
+                                return d[0]
+                            })])
+                            .range([padding, svgWidth - padding * 2 ])
+
+        const yScale = d3.scaleLinear()
+                            .domain([0, d3.max(dataset, function(d){
+                                return d[1]
+                            })])
+                            .range([svgHeight - padding, padding])
+
+        const rScale = d3.scaleLinear()
+                            .domain([0, d3.max(dataset, function(d){
+                                return d[1]
+                            })])
+                            .range([2, 5])
+
+        const svg = d3.select("body").append("svg")
+                        .attr("height", svgHeight)
+                        .attr("width", svgWidth)
+                        .style("background-color", "#000000")
+
+        const circle = svg.selectAll("circle")
+                            .data(dataset).enter()
+                            .append("circle")
+                            .attr("cx", function(d){
+                                return xScale(d[0])
+                            })
+                            .attr("cy", function(d){
+                                return yScale(d[1])
+                            })
+                            .attr("r", function(d){
+                                return rScale(d[1])
+                            })
+                            .attr("fill", "red")
+                            // .attr("r", function(d){
+                            //     return Math.sqrt(svgHeight - d[1])
+                            // })
+
+        const annotations = svg.selectAll("text")
+                                .data(dataset).enter()
+                                .append("text")
+                                .text(function(d){
+                                    return `(${d[0]} , ${d[1]})`
+                                })
+                                .attr("x", function(d){
+                                    return xScale(d[0])
+                                })
+                                .attr("y", function(d){
+                                    return yScale(d[1])
+                                })
+                                .attr("font-size", 10)
+                                .attr("fill", "white")
+
+    </script>
+</body>
+</html>

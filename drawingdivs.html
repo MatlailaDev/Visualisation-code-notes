@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="d3/d3.v7.js"></script>
+    <style>
+        .bar{
+            display: inline-block;
+            width: 20px;
+            height: 75px;
+            background-color: teal;
+            margin-right: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="bar"></div> -->
+     <script>
+        // var dataset = [5, 10, 15, 20, 25]
+        // var dataset = [ 25, 7, 5, 26, 11 ]
+        var dataset = [ 25, 7, 5, 26, 11, 8, 25, 14, 23, 19,
+                        14, 11, 22, 29, 11, 13, 12, 17, 18, 10,
+                        24, 18, 25, 9, 3 ]
+
+        d3.select("body").selectAll("div")
+            .data(dataset).enter()
+            .append("div").attr("class", "bar")
+            .style("height", function(d){
+                var barHeight = d * 5
+                return barHeight + "px"
+            })
+     </script>
+</body>
+</html>

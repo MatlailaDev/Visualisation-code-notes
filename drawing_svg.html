@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="d3/d3.v7.js"></script>
+    <style>
+        .border{
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        var dataset = [5, 10, 15, 20, 25]
+
+        var svg = d3.select("body").append("svg")
+
+        var height = 100
+        var width = 500
+
+        svg.attr("height", height)
+            .attr("width", width)
+            .attr("class", "border")
+
+        var circles = svg.selectAll("circles")
+                            .data(dataset).enter()
+                            .append("circle")
+
+        
+        
+        var positionedCircles = circles.attr("cx", function(d,i){
+            return (i*50) + 25
+        })
+                .attr("cy", height/2)
+                .attr("r", function(d){
+                    return d
+                })
+
+        positionedCircles.attr("fill", "yellow")
+                            .attr("stroke", "orange")
+                            .attr("stroke-width", function(d){
+                                return d/2
+                            })
+    </script>
+</body>
+</html>

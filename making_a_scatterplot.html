@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="d3/d3.v7.js"></script>
+</head>
+<body>
+    <script>
+        const dataset = [3, 6, 9, 5, 2, 4, 21, 24, 27, 30]
+        const svgWidth = 700
+        const svgHeight = 200
+
+        const svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", svgWidth)
+                        .attr("height", svgHeight)
+
+        const circles = svg.selectAll("circle")
+                            .data(dataset).enter()
+                            .append("circle")
+                            .attr("cx", function(d, i){
+                                return i * (svgWidth/dataset.length)
+                            })
+                            .attr("cy", function(d){
+                                return svgHeight - (d *5)
+                            })
+                            .attr("r", "5")
+
+    </script>
+</body>
+</html>

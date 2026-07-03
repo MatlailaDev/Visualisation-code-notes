@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="d3/d3.v7.js"></script>
+</head>
+<body>
+    <p>Click Here</p>
+
+    <script>
+        let dataset = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 40, 60, 80]
+
+        const svgWidth = 600
+        const svgHeight = 500
+        const barPadding = 25
+
+        const xScale = d3.scaleBand()
+                            .domain(d3.range(dataset.length))
+                            .range([30, svgWidth])
+                            .paddingInner(0.05)
+        
+        const yScale = d3.scaleLinear()
+                            .domain([0, d3.max(dataset, function(d){
+                                return d
+                            })])
+                            .range([svgHeight - barPadding, barPadding])
+
+
+        const svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", svgWidth)
+                        .attr("height", svgHeight)
+
+        const bars = svg.selectAll("rect")
+                        .data(dataset).enter()
+                        .append("rect")
+                        .attr("x", function(d, i){
+                            return xScale(i)
+                        })
+                        .attr("y", function(d){
+                            return (svgHeight - (d*4))
+                        })
+                        .attr("width", (svgWidth/dataset.length)- barPadding)
+                        .attr("height", function(d){
+                            return d*4
+                        })
+                        .attr("fill", function(d){
+                            return "rgb(0, 0, " +(d * 10) +")"
+                        })
+
+        const annotations = svg.selectAll("text")
+                                .data(dataset).enter()
+                                .append("text")
+                                .text(function(d){
+                                    return d
+                                })
+                                .attr("x", function(d, i){
+                                    return (i * (svgWidth / dataset.length) + ((svgWidth / dataset.length) - barPadding)/1)
+                                })
+                                .attr("y", function(d){
+                                    return svgHeight - (d * 4)
+                                })
+
+       d3.select("p")
+         .on("click", function(){
+            dataset = [15, 40, 50, 7, 8, 19, 12, 22, 33, 4, 40, 10, 30]
+
+            svg.selectAll("rect")
+                .data(dataset)
+                .attr("y", function(d){
+                    return svgHeight - yScale(d)
+                })
+                .attr("height", function(d){
+                    return yScale(d)
+                })
+                .attr("fill", function(d){
+                    return "rgb(0, 0, " + (d * 10) + ")"
+                })
+         })
+
+    
+
+    </script>
+</body>
+</html>

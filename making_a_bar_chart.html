@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="d3/d3.v7.js"></script>
+    <style>
+        .margin{
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const dataset = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 20, 45, 80, 70, 200, ]
+        const svgHeight = 500
+        const svgWidth = 500
+        const barPadding = 10
+
+        const svg = d3.select("body").append("svg")
+                        .attr("height", svgHeight)
+                        .attr("width", svgWidth)
+
+        const rectangles = svg.selectAll("rect")
+                                .data(dataset)
+                                .enter()
+                                .append("rect")
+                                .attr("height", function(d){
+                                    return (d * 5)
+                                })
+                                .attr("width", (svgWidth/dataset.length) - barPadding)
+                                .attr("x", function(d, i){
+                                    return (i * (svgWidth/dataset.length))
+                                })
+                                .attr("y", function(d){
+                                    return svgHeight - (d * 5)
+                                })
+
+        const styledRectangles = rectangles.attr("fill", function(d){
+                                        return "rgb(0, 0, " + (d * 8) + ")"
+                                })
+        
+        
+        const annotations = svg.selectAll("text")
+                                .data(dataset).enter()
+                                .append("text")
+                                .text(function(d){
+                                    return d
+                                })
+                                .attr("x", function(d, i){
+                                    return i * (svgWidth / dataset.length) + (svgWidth / dataset.length - barPadding)/2
+                                })
+                                .attr("y", function(d){
+                                    return svgHeight - (d * 1)
+                                })
+                                .attr("fill", "white")
+                                .attr("font-size", "20px")
+                                .attr("text-anchor", "middle")
+                                
+
+    </script>
+</body>
+</html>
