@@ -1,0 +1,211 @@
+// let dataset = [ 5, 10, 15, 20, 25, 30, 35]
+let dataset = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]
+
+
+const svgWidth = 600
+const svgHeight = 300
+const padding = 30
+
+let xScale = d3.scaleBand()
+                .domain(d3.range(dataset.length))
+                .range([padding, svgWidth - padding])
+                .paddingInner(0.05)
+
+let yScale = d3.scaleLinear()
+                .domain([0, d3.max(dataset, function(d){
+                    return d
+                })])
+                .range([svgHeight - padding, padding])
+
+let svg = d3.select(".bar-chart-container") 
+            .append("svg")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight)
+            .attr("class", "barChart")
+
+let bars = svg.selectAll("rect")
+            .data(dataset).enter()
+            .append("rect")
+            .attr("width", xScale.bandwidth())
+            .attr("height", function(d){
+                return svgHeight - padding - yScale(d)
+            })
+            .attr("x",  function(d, i){
+                return xScale(i)
+            })
+            .attr("y", function(d){
+                return yScale(d)
+            })
+            .attr("fill", function(d){
+                return `rgb(0, 0, ${d * 6})`
+            })
+
+let annotations = svg.selectAll("text")
+                    .data(dataset).enter()
+                    .append("text")
+                    .text(function(d){
+                        return d
+                    })
+                    .attr("x", function(d, i){
+                        return xScale(i) + xScale.bandwidth()/2
+                    })
+                    .attr("y", function(d){
+                        return yScale(d) - 2
+                    })
+                    .attr("class", "annotations")
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "rgb(73, 69, 69)")
+
+let xAxis = d3.axisBottom(xScale)
+
+svg.append("g")
+.attr("transform", `translate(0, ${(svgHeight - padding)})`)
+.call(xAxis)
+
+let yAxis = d3.axisLeft(yScale)
+
+svg.append("g")
+.attr("transform", `translate(${padding}, 0)`)
+.attr("class", "yAxis")
+.call(yAxis)
+
+
+
+d3.select("button")
+.on("click", function(){
+
+    // dataset = [10, 20, 30, 5, 25, 40, 15]
+    // dataset = [50, 100, 150, 210, 125, 130, 40, 45, 10, 55, 160, 40, 15, 350]
+    let numValues = dataset.length
+    dataset = []
+    for(let i = 0; i < numValues; i++){
+        let newNumber = Math.floor(Math.random() * 10)
+        dataset.push(newNumber)
+    }
+    
+    yScale.domain([0, d3.max(dataset, function(d){
+        return d
+    })])
+    .range([svgHeight - padding, padding])
+
+    svg.selectAll("rect")
+        .data(dataset)
+        .transition()
+        .delay(function(d,i){
+            return i / dataset.length * 1000
+        })
+        .ease(d3.easeCubicInOut)
+        .duration(1000)
+        .attr("y", function(d){
+            return yScale(d)
+        })
+        .attr("height", function(d){
+            return svgHeight - yScale(d) - padding
+        })
+        
+
+    svg.selectAll("text")
+        .data(dataset)
+        .transition()
+        .delay(function(d,i){
+            return i / dataset.length * 1000
+        })
+        .ease(d3.easeCubicInOut)
+        .duration(1000)
+        .text(function(d){
+            return d
+        })
+        .attr('x', function(d,i){
+            return xScale(i) + xScale.bandwidth()/2
+        })
+        .attr("y", function(d){
+            return yScale(d) -2
+        })
+
+    
+
+    svg.select(".yAxis")
+        // .transition()
+        // .delay(function(d,i){
+        //     return i * 1000
+        // })
+        // .ease(d3.easeCubicInOut)
+        // .duration(1000)
+        .call(d3.axisLeft(yScale))
+
+    
+})
+
+//  d3.select(".reset")
+//     .on("click", function(){
+//         location.reload()
+//     })
+
+
+
+
+
+function updateData(){
+    
+    let numValues = dataset.length
+    dataset = []
+    for(let i = 0; i < numValues; i++){
+        let newNumber = Math.floor(Math.random() * 200)
+        dataset.push(newNumber)
+    }
+    
+    yScale.domain([0, d3.max(dataset, function(d){
+        return d
+    })])
+    .range([svgHeight - padding, padding])
+
+    svg.selectAll("rect")
+        .data(dataset)
+        .transition()
+        .delay(function(d,i){
+            return i / dataset.length * 1000
+        })
+        .ease(d3.easeBounce)
+        .duration(1000)
+        .attr("y", function(d){
+            return yScale(d)
+        })
+        .attr("height", function(d){
+            return svgHeight - yScale(d) - padding
+        })
+        
+
+    svg.selectAll("text")
+        .data(dataset)
+        .transition()
+        .delay(function(d,i){
+            return i / dataset.length * 1000
+        })
+        .ease(d3.easeBounce)
+        .duration(1000)
+        .text(function(d){
+            return d
+        })
+        .attr('x', function(d,i){
+            return xScale(i) + xScale.bandwidth()/2
+        })
+        .attr("y", function(d){
+            return yScale(d) -2
+        })
+
+    
+
+    svg.select(".yAxis")
+        // .transition()
+        // .delay(function(d,i){
+        //     return i * 1000
+        // })
+        // .ease(d3.easeBounce)
+        // .duration(1000)
+        .call(d3.axisLeft(yScale))
+
+}
+
+setInterval(() => {
+    updateData()
+}, 700)

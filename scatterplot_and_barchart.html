@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="d3/d3.v7.js"></script>
+    <style>
+        body{
+            text-align: center;
+        }
+
+        .bar-chart-container{
+            width: 700px;
+            margin: auto auto;
+            margin-bottom: 15px;
+        }
+
+        .barChart{
+            border: /*1px solid #000000*/ none;
+            border-radius: 3px;
+            box-shadow: 0px 0px 7px 0px #615c5c;
+        }
+
+        .annotations{
+            font-style: sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+
+        .scatterplot-container{
+            margin: auto auto;
+            width: 700px;
+            border: none;
+            border-radius: 7px;
+            box-shadow: 0px 0px 7px 2px grey;
+        }
+    </style>
+</head>
+<body>
+    <div class="bar-chart-container"></div>
+    <div class="scatterplot-container"></div>
+
+    <script src="bar_chart.js"></script>
+    <script src="scatterplot.js"></script>
+</body>
+</html>

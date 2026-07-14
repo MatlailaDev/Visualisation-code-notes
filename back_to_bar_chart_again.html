@@ -47,7 +47,8 @@
     <button class="reset">RESET</button>
     <script>
         // let dataset = [ 5, 10, 15, 20, 25, 30, 35]
-        let dataset = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]
+        let dataset = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
+        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
         
 
         const svgWidth = 600
@@ -64,6 +65,10 @@
                                 return d
                             })])
                             .range([svgHeight - padding, padding])
+
+        let dateScale = d3.scaleBand()
+                           .domain(months)   
+                           .range([padding, svgWidth - padding])             
 
         let svg = d3.select(".bar-chart-container") 
                         .append("svg")
@@ -104,7 +109,9 @@
                                 .attr("text-anchor", "middle")
                                 .attr("fill", "rgb(73, 69, 69)")
 
-        let xAxis = d3.axisBottom(xScale)
+        let xAxis = d3.axisBottom(dateScale)
+                        // .tickSizeOuter(0)
+                        .tickSizeInner(0)
         
         svg.append("g")
             .attr("transform", `translate(0, ${(svgHeight - padding)})`)
@@ -127,7 +134,7 @@
                 let numValues = dataset.length
                 dataset = []
                 for(let i = 0; i < numValues; i++){
-                    let newNumber = Math.floor(Math.random() * 10)
+                    let newNumber = Math.floor(Math.random() * 15)
                     dataset.push(newNumber)
                 }
                
@@ -135,6 +142,9 @@
                     return d
                 })])
                 .range([svgHeight - padding, padding])
+
+                // xScale.domain([d3.range(dataset.length)])
+                //         .range([padding, svgWidth - padding])
 
                 svg.selectAll("rect")
                     .data(dataset)
@@ -150,7 +160,22 @@
                     .attr("height", function(d){
                         return svgHeight - yScale(d) - padding
                     })
+
+                // bars.enter()
+                //     .append("rect")
+                //     .attr("x", svgWidth)
+                //     .attr("y", function(d){
+                //         return svgHeight - yScale(d)
+                //     })
+                //     .attr("width", xScale.bandwidth())
+                //     .attr("height", function(d){
+                //         return yScale(d)
+                //     })
+                //     .attr("fill", function(d){
+                //         return `rgb(0, 0, ${d * 10})`
+                //     })
                     
+                
 
                 svg.selectAll("text")
                     .data(dataset)
@@ -207,6 +232,11 @@
                 })])
                 .range([svgHeight - padding, padding])
 
+
+                dateScale.domain(months)   
+                         .range([padding, svgWidth - padding]) 
+
+
                 svg.selectAll("rect")
                     .data(dataset)
                     .transition()
@@ -251,12 +281,22 @@
                     // .ease(d3.easeBounce)
                     // .duration(1000)
                     .call(d3.axisLeft(yScale))
+
+
+                svg.select(".xAxis")
+                    // .transition()
+                    // .delay(function(d,i){
+                    //     return i * 1000
+                    // })
+                    // .ease(d3.easeBounce)
+                    // .duration(1000)
+                    .call(d3.axisLeft(dateScale))
         
             }
 
-            setInterval(() => {
-                updateData()
-            }, 700)
+            // setInterval(() => {
+            //     updateData()
+            // }, 700)
 
 
 
