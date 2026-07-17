@@ -11,7 +11,141 @@
     <button>Add value</button>
 
     <script>
-        dataset = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
+        let dataset = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+
+        let svgWidth = 500
+        let svgHeight = 200
+        let padding = 20
+        
+        let xScale = d3.scaleBand()
+                        .domain(d3.range(dataset.length))
+                        .range([padding, svgWidth-padding])
+                        .paddingInner(0.05)
+
+        let yScale = d3.scaleLinear()
+                        .domain([0, d3.max(dataset, function(d){
+                            return d
+                        })])
+                        .range([svgHeight - padding, padding])
+
+        let svg = d3.select(".bar-chart-container")
+                    .append("svg")
+                    .attr("width" ,svgWidth)
+                    .attr("height", svgHeight) 
+
+        let bars = svg.selectAll("rect")
+                        .data(dataset).enter()
+                        .append("rect")
+                        .attr("width", xScale.bandwidth())
+                        .attr("height", function(d){
+                            return svgHeight - padding - yScale(d)
+                        })
+                        .attr("x", function(d, i){
+                            return xScale(i)
+                        })
+                        .attr("y", function(d){
+                            return yScale(d)
+                        })
+                        .attr("fill", function(d){
+                            return `rgb(0, 0, ${(d * 5)})`
+                        })
+
+        let annotations = svg.selectAll("text")
+                                .data(dataset).enter()
+                                .append("text")
+                                .text(function(d){
+                                    return d
+                                })
+                                .attr("x", function(d, i){
+                                    return xScale(i) + xScale.bandwidth()/3
+                                })
+                                .attr("y", function(d){
+                                    return yScale(d) - 2
+                                })
+                                .attr("fill", function(d){
+                                    return `rgb(0, 0, ${(d * 5)})`
+                                })
+        
+        d3.select("button")
+           .on("click", function(){
+
+                // let maxValue = 25
+                // let newNumber = Math.floor(Math.random() * maxValue)
+                // dataset.push(newNumber)
+
+                dataset.push(5, 25, 60)
+
+                xScale.domain(d3.range(dataset.length))
+
+                yScale.domain([0, d3.max(dataset, function(d){
+                    return d
+                })])
+
+                bars = svg.selectAll("rect")
+                            .data(dataset)
+                            .attr("x", function(d, i){
+                                return xScale(i)
+                            })
+                            .attr("y", function(d){
+                                return yScale(d)
+                            })
+                            .attr("width", xScale.bandwidth())
+                            .attr("height", function(d){
+                                return svgHeight - padding - yScale(d)
+                            })
+
+
+                bars.enter()
+                    .append("rect")
+                    .attr("x", function(d, i){
+                        return xScale(i)
+                    })
+                    .attr("y", svgHeight - padding)
+                    .attr("width", xScale.bandwidth())
+                    .transition()
+                    .duration(1500)
+                    .attr("height", function(d){
+                        return svgHeight - padding - yScale(d)
+                    })
+                    .attr("y", function(d){
+                        return yScale(d)
+                    })
+                    .attr("fill", function(d){
+                        return `rgb(0, 0, ${(d * 5)})`
+                    })
+                     
+
+
+                annotations = svg.selectAll("text")
+                                    .data(dataset)
+                                    .attr("x", function(d, i){
+                                        return xScale(i) + xScale.bandwidth()/3
+                                    })
+                                    .attr("y", function(d){
+                                        return yScale(d) -2
+                                    })
+
+                annotations.enter()
+                            .append("text")
+                            .text(function(d){
+                                return d
+                            })
+                            .attr("x", function(d, i){
+                                return xScale(i) + xScale.bandwidth()/3
+                            })
+                            .attr("y", svgHeight - padding)
+                            .transition()
+                            .duration(1500)
+                            .attr("y", function(d){
+                                return yScale(d) - 2
+                            })
+                            .attr("fill", function(d){
+                                return `rgb(0, 0, ${(d * 5)})`
+                            })
+    
+           })
+                
+        
     </script>
 </body>
 </html>
