@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="d3/d3.v7.js"></script>
+    <style>
+        div{
+            border-radius: 8px;
+            text-align: center;
+            width: fit-content;
+            margin: auto;
+            background-color: #000807;
+        }
+        button{
+            display: block;
+            margin:  20px auto;
+            padding: 12px 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bar-chart-container"></div>
+    <button>Remove first bar</button>
+
+    <script>
+        let dataset = [{key: 0, value: 5}, {key: 1, value: 20}, {key: 2, value: 10}, {key: 3, value: 15}, {key: 4, value: 35}, {key: 5, value: 60}]
+
+        let key = function(d){
+            return d.key
+        }
+
+        let svgWidth = 500
+        let svgHeight = 200
+        let padding = 20
+
+        let xScale = d3.scaleBand()
+                        .domain(d3.range(dataset.length))
+                        .range([padding, svgWidth - padding])
+                        .paddingInner(0.05)
+        
+        let yScale = d3.scaleLinear()
+                        .domain([0, d3.max(dataset, function(d){
+                            return d.value
+                        })])
+                        .range([svgHeight - padding, padding])
+                        
+        let svg = d3.select(".bar-chart-container")
+                    .append("svg")
+                    .attr("width", svgWidth)
+                    .attr("height", svgHeight)
+
+        let bars = svg.selectAll("rect")
+                        .data(dataset, key).enter()
+                        .append("rect")
+                        .attr("width", xScale.bandwidth())
+                        .attr("height", function(d){
+                            return svgHeight - padding - yScale(d.value)
+                        })
+                        .attr("x", function(d, i){
+                            return xScale(i)
+                        })
+                        .attr("y", function(d){
+                            return yScale(d.value)
+                        })
+                        .attr("fill", "white")
+
+        let annotations = svg.selectAll("text")
+                              .data(dataset, key).enter()
+                              .append("text")
+                              .text(function(d){
+                                return d.value
+                              })
+                              .attr("x", function(d, i){
+                                return xScale(i) + xScale.bandwidth()/2
+                              })
+                              .attr("y", function(d){
+                                return yScale(d.value) + 12
+                              })
+                              .attr("fill", "black")
+                              .attr("text-anchor", "middle")
+
+        d3.select("button")
+           .on("click", function(){
+
+                dataset.shift()
+
+
+                xScale.domain(d3.range(dataset.length))
+                
+
+                yScale.domain([0, d3.max(dataset, function(d){
+                    return d.value
+                })])
+
+
+                bars = svg.selectAll("rect")
+                            .data(dataset, key)
+                            .attr("x", function(d, i){
+                                return xScale(i)
+                            })
+                            .attr("y", function(d){
+                                return yScale(d.value)
+                            })
+                            .attr("width", xScale.bandwidth())
+                            .attr("height", function(d){
+                                return svgHeight - padding - yScale(d.value)
+                            }) 
+                
+
+
+                bars.exit()
+                    .attr("fill", "red")
+                    .transition()
+                    .duration(700)
+                    .attr("x", -svgWidth)
+                    .remove()
+
+            
+                annotations = svg.selectAll("text")
+                            .data(dataset, key)
+                            .text(function(d){
+                                return d.value
+                            })
+                            .attr("x", function(d, i){
+                                return xScale(i) + xScale.bandwidth()/2
+                            })
+                            .attr("y", function(d){
+                                return yScale(d.value) + 12
+                            })
+                            .attr("text-anchor", "middle")
+
+                annotations.exit()
+                            .attr("fill", "red")
+                            .transition()
+                            .duration(700)
+                            .attr("x", -svgWidth)
+                            .remove()
+                
+
+           })
+
+
+    </script>
+</body>
+</html>

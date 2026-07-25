@@ -103,7 +103,8 @@
                     .attr("y", svgHeight - padding)
                     .attr("width", xScale.bandwidth())
                     .transition()
-                    .duration(1500)
+                    .ease(d3.easeCubicInOut)
+                    .duration(2000)
                     .attr("height", function(d){
                         return svgHeight - padding - yScale(d)
                     })
@@ -135,7 +136,8 @@
                             })
                             .attr("y", svgHeight - padding)
                             .transition()
-                            .duration(1500)
+                            .ease(d3.easeCubicInOut)
+                            .duration(2000)
                             .attr("y", function(d){
                                 return yScale(d) - 2
                             })

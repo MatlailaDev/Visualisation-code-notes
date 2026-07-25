@@ -54,6 +54,8 @@
                             .attr("r", function(d){
                                 return rScale(d[1])
                             })
+                            .attr("stroke", "black")
+                            .attr("fill", "white")
 
         const xAxis = d3.axisBottom(xScale)
                         .ticks(5)
