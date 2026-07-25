@@ -1,0 +1,68 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align: center;
+    padding: 10px;
+}
+
+section h1{
+    font-size:  35px;
+    margin-bottom: 12px;
+    color: #001C55;
+}
+
+section h3{
+    color: #001C55;
+    font-size: 18px;
+}
+
+section h3 span{
+    display: block;
+    margin: auto;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: #EEE;
+    background-color: grey;
+    align-content: center;
+    font-size: 21px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+
+}
+
+.scatterplot-container{
+    border: 1px solid  grey;
+    border-radius: 7px;
+    /* padding: 15px; */
+    width: fit-content;
+    margin: auto;
+}
+
+button{
+    margin-top: 25px;
+    width: 140px;
+    padding: 7px;
+    background-color: #001C55;
+    border: none;
+    border-radius: 7px;
+    color: #EEE;
+    font-size: 15px;
+}
+
+button:hover{
+    font-size: 16px;
+    color: 18px;
+}
+
+/* Scatterplot circles/points styling */
+circle:hover{
+    stroke: black;
+    fill: #EC4E20;
+}
