@@ -58,11 +58,38 @@ button{
 
 button:hover{
     font-size: 16px;
-    color: 18px;
+    color: #001C55;
+    background-color: #EEE;
+    border: 1px solid grey;
 }
 
 /* Scatterplot circles/points styling */
 circle:hover{
     stroke: black;
     fill: #EC4E20;
+}
+
+
+/* Tooltip styling */
+#tooltip{
+    position: absolute;
+    width: fit-content;
+    height: auto;
+    padding: 8px;
+    background-color: grey;
+    border-radius: 10px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+
+}
+
+#tooltip.hidden{
+    display: none;
+}
+
+#tooltip{
+    margin: 0;
+    font-family: sans-serif;
+    font-size: 11px;
+    line-height: 20px;
 }

@@ -6,6 +6,7 @@ let svgWidth =  550
 let svgHeight = 300
 let padding = 30
 
+
 let xScale = d3.scaleLinear()
                 .domain([0, d3.max(dataset, function(d){return d.x})])
                 .range([padding, svgWidth - padding])
@@ -18,6 +19,8 @@ let rScale = d3.scaleLinear()
                 .domain([0, d3.max(dataset, function(d){return d.y})])
                 .range([2, 5])
 
+let maxRadius = rScale.range()[1]
+
 let svg = d3.select(".scatterplot-container")
             .append("svg")
             .attr("width", svgWidth)
@@ -27,10 +30,10 @@ let svg = d3.select(".scatterplot-container")
 svg.append("clipPath")
     .attr("id", "scatterplot-area")
     .append("rect")
-    .attr("width", svgWidth -padding * 3)
-    .attr("height", svgHeight -padding * 2)
-    .attr("x", padding)
-    .attr("y", padding)
+    .attr("width", svgWidth - padding * 2 + maxRadius * 2)
+    .attr("height", svgHeight - padding * 2 + maxRadius * 2)
+    .attr("x", padding - maxRadius)
+    .attr("y", padding - maxRadius)
 
 let points = svg.append("g")
                 .attr("id", "circle")
@@ -42,8 +45,22 @@ let points = svg.append("g")
                 .attr("cx", function(d){return xScale(d.x)})
                 .attr("cy", function(d){return yScale(d.y)})
                 .attr("r", function(d){return rScale(d.y)})
-                .append("title")
-                .text(function(d){return `${d.x},${d.y}`})
+                .attr("fill", "grey")
+                .attr("stroke", "black")
+                .on("mouseover", function(event, d){
+
+                    let xPosition = parseFloat(d3.select(this).attr("cx"))
+                    let yPosition = parseFloat(d3.select(this).attr("cy"))
+
+                    d3.select("#tooltip")
+                        .style("left", `${event.pageX}px`)
+                        .style("top", `${event.pageY}px`)
+                        .select("#value")
+                        .text(`${d.x}, ${d.y}`)
+
+                    d3.select("#tooltip").classed("hidden", false)
+                })
+                .on("mouseout", function(){d3.select("#tooltip").classed("hidden", true)})
 
 // let annotations = svg.append("g")
 //                      .attr("id", "text")
