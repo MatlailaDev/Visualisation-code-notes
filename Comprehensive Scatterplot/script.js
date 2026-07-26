@@ -45,12 +45,18 @@ let points = svg.append("g")
                 .attr("cx", function(d){return xScale(d.x)})
                 .attr("cy", function(d){return yScale(d.y)})
                 .attr("r", function(d){return rScale(d.y)})
-                .attr("fill", "grey")
-                .attr("stroke", "black")
+                .attr("fill", "#001C55")
+                // .attr("stroke", "black")
                 .on("mouseover", function(event, d){
 
                     let xPosition = parseFloat(d3.select(this).attr("cx"))
                     let yPosition = parseFloat(d3.select(this).attr("cy"))
+
+                    d3.select(this)
+                        .transition()
+                        .ease(d3.easeCubicInOut)
+                        .duration(500)
+                        .attr("r", function(d){return rScale(d.y) * 2})
 
                     d3.select("#tooltip")
                         .style("left", `${event.pageX}px`)
@@ -60,7 +66,16 @@ let points = svg.append("g")
 
                     d3.select("#tooltip").classed("hidden", false)
                 })
-                .on("mouseout", function(){d3.select("#tooltip").classed("hidden", true)})
+                .on("mouseout", function(){
+                    d3.select(this)
+                        .transition()
+                        .ease(d3.easeCubicInOut)
+                        .duration(500)
+                        .attr("r", function(d){ return rScale(d.y)})
+                    
+                    d3.select("#tooltip").classed("hidden", true)
+
+                })
 
 // let annotations = svg.append("g")
 //                      .attr("id", "text")

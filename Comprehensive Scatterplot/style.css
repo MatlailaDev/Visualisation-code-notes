@@ -76,7 +76,8 @@ circle:hover{
     width: fit-content;
     height: auto;
     padding: 8px;
-    background-color: grey;
+    background-color: #001C55;
+    color: #EEE;
     border-radius: 10px;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
     pointer-events: none;
