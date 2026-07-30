@@ -15,7 +15,66 @@
     <div class="stacked-chart-container"></div>
 
     <script>
-        let dataset = 
+        let dataset = [
+                        {x: 0, apples: 20, oranges: 10, bananas: 5},
+                        {x: 1, apples: 15, oranges: 20, bananas: 15},
+                        {x: 2, apples: 40, oranges: 25, bananas: 50,},
+                        {x: 3, apples: 30, oranges: 15, bananas: 5,},
+                        {x: 4, apples: 140, oranges: 5, bananas: 10,}             
+                      ]
+
+        let stack = d3.stack()
+                        .keys(["apples", "oranges", "bananas"])
+
+        let stackedData = stack(dataset)
+
+        let color = d3.scaleOrdinal(d3.schemeDark2)
+
+        let svgWidth = 600
+        let svgHeight = 200
+        let padding = 20
+
+        let yScale = d3.scaleBand()
+                        .domain(d3.range(dataset.length))
+                        .range([padding, svgHeight - padding])
+                        .padding(0.05)
+
+        let xScale = d3.scaleLinear()
+                        .domain([0, d3.max(stackedData[stackedData.length -1], function(d){return d[1]})])
+                        .range([padding, svgWidth - padding])
+
+
+    
+
+        let svg = d3.select(".stacked-chart-container")
+                    .append("svg")
+                    .attr("width", svgWidth)
+                    .attr("height", svgHeight)
+
+        let groups = svg.selectAll("g")
+                        .data(stackedData)
+                        .enter()
+                        .append("g")
+                        .attr("fill", function(d, i){return color(i)})
+
+        let rects = groups.selectAll("rect")
+                            .data(function(d){return d})
+                            .enter()
+                            .append("rect")
+                            .attr("x", function(d){return xScale(d[0])})
+                            .attr("y", function(d, i){return yScale(i)})
+                            .attr("width", function(d){return xScale(d[1]) - xScale(d[0])})
+                            .attr("height", yScale.bandwidth())
+        
+        svg.append("g")
+            .attr("transform", `translate(0, ${svgHeight - padding})`)
+            .call(d3.axisBottom(xScale))
+
+        svg.append("g")
+            .attr("transform", `translate(${padding}, 0)`)
+            .call(d3.axisLeft(yScale))
+
+            
     </script>
     
 </body>
