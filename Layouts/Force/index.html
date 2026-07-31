@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Force Layout</title>
+    <script src="/d3/d3.v7.js" type="text/javascript"></script>
+    <style>
+        body{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="force-chart-container"></div>
+
+    <script>
+        let dataset = {
+            nodes: [
+                {name: "Adam"},
+                {name: "Bob"},
+                {name: "Carrie"},
+                {name: "Donovan"},
+                {name: "Edward"}
+            ],
+            edges: [
+                {source: 0, target: 1},
+                {source: 0, target: 2},
+                {source: 0, target: 3},
+                {source: 0, target: 4},
+                {source: 1, target: 2},
+            ]
+        }
+
+        let svgWidth = 600
+        let svgHeight = 250
+
+        let colors = d3.scaleOrdinal(d3.schemeCategory10)
+
+        let svg = d3.select(".force-chart-container")
+                    .append("svg")
+                    .attr("width", svgWidth)
+                    .attr("height", svgHeight)
+
+        let simulation = d3.forceSimulation(dataset.nodes)
+                            .force("charge", d3.forceManyBody().strength(-100))
+                            .force("link", d3.forceLink(dataset.edges).distance(50))
+                            .force("center", d3.forceCenter(svgWidth/2, svgHeight/2))
+
+        let edges = svg.selectAll("line")
+                        .data(dataset.edges)
+                        .enter()
+                        .append("line")
+                        .style("stroke", "#ccc")
+                        .style("stroke-width", 1)
+
+        let nodes = svg.selectAll("circle")
+                        .data(dataset.nodes)
+                        .enter()
+                        .append("circle")
+                        .attr("r", 10)
+                        .style("fill", function(d, i){ return colors(i) })
+
+        let drag = d3.drag()
+                      .on("start", function(event, d){
+                          if(!event.active) simulation.alphaTarget(0.3).restart()
+                          d.fx = d.x
+                          d.fy = d.y
+                      })
+                      .on("drag", function(event, d){
+                          d.fx = event.x
+                          d.fy = event.y
+                      })
+                      .on("end", function(event, d){
+                          if(!event.active) simulation.alphaTarget(0)
+                          d.fx = null
+                          d.fy = null
+                      })
+
+        nodes.call(drag)
+
+        simulation.on("tick", function(){
+            edges.attr("x1", function(d){ return d.source.x })
+                 .attr("y1", function(d){ return d.source.y })
+                 .attr("x2", function(d){ return d.target.x })
+                 .attr("y2", function(d){ return d.target.y })
+
+            nodes.attr("cx", function(d){ return d.x })
+                 .attr("cy", function(d){ return d.y })
+        })
+
+    </script>
+</body>
+</html>
