@@ -1,0 +1,44 @@
+city,state_id,state_name,population,lat,lng
+New York,NY,New York,8335897,40.7128,-74.006
+Los Angeles,CA,California,3822238,34.0522,-118.2437
+Chicago,IL,Illinois,2665039,41.8781,-87.6298
+Houston,TX,Texas,2302878,29.7604,-95.3698
+Phoenix,AZ,Arizona,1644409,33.4484,-112.074
+Philadelphia,PA,Pennsylvania,1567258,39.9526,-75.1652
+San Antonio,TX,Texas,1472909,29.4241,-98.4936
+San Diego,CA,California,1381162,32.7157,-117.1611
+Dallas,TX,Texas,1304379,32.7767,-96.797
+Austin,TX,Texas,974447,30.2672,-97.7431
+Jacksonville,FL,Florida,971319,30.3322,-81.6557
+San Jose,CA,California,971233,37.3382,-121.8863
+Fort Worth,TX,Texas,956749,32.7555,-97.3308
+Columbus,OH,Ohio,907971,39.9612,-82.9988
+Charlotte,NC,North Carolina,897720,35.2271,-80.8431
+Indianapolis,IN,Indiana,880621,39.7684,-86.1581
+San Francisco,CA,California,808437,37.7749,-122.4194
+Seattle,WA,Washington,749256,47.6062,-122.3321
+Denver,CO,Colorado,713252,39.7392,-104.9903
+Oklahoma City,OK,Oklahoma,694800,35.4676,-97.5164
+Nashville,TN,Tennessee,689447,36.1627,-86.7816
+El Paso,TX,Texas,677456,31.7619,-106.485
+Washington,DC,District of Columbia,671803,38.9072,-77.0369
+Las Vegas,NV,Nevada,656274,36.1716,-115.1398
+Boston,MA,Massachusetts,650706,42.3601,-71.0589
+Portland,OR,Oregon,635067,45.5152,-122.6784
+Louisville,KY,Kentucky,624444,38.2527,-85.7585
+Memphis,TN,Tennessee,621056,35.1495,-90.049
+Detroit,MI,Michigan,620376,42.3314,-83.0458
+Baltimore,MD,Maryland,569931,39.2904,-76.6122
+Milwaukee,WI,Wisconsin,563305,43.0389,-87.9065
+Albuquerque,NM,New Mexico,561004,35.0844,-106.6511
+Tucson,AZ,Arizona,546574,32.2226,-110.9747
+Fresno,CA,California,545567,36.7378,-119.7871
+Sacramento,CA,California,528001,38.5816,-121.4944
+Mesa,AZ,Arizona,512498,33.4152,-111.8315
+Kansas City,MO,Missouri,509297,39.0997,-94.5786
+Atlanta,GA,Georgia,499849,33.749,-84.388
+Colorado Springs,CO,Colorado,486248,38.8339,-104.8214
+Omaha,NE,Nebraska,485153,41.2565,-95.9345
+Raleigh,NC,North Carolina,476587,35.7796,-78.6382
+Virginia Beach,VA,Virginia,455618,36.8529,-75.978
+Miami,FL,Florida,449514,25.7617,-80.1918

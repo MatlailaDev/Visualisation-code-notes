@@ -165,7 +165,7 @@ d3.select(".remove-bars")
             // .attr("y", function(d){return yScale(d.value)})
             .transition("bar")
             .duration(500)
-            .attr("y", -svgHeight)
+            .attr("x", -svgWidth)
             .remove()
 
         svg.select(".xAxis")
